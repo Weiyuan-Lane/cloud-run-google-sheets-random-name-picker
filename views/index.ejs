@@ -31,7 +31,7 @@ body { background:#F1C40F url(img/bg-noise-orange.png); }
 	<div class="row">
 		<div class="large-12 columns" style="padding-top:50px;background:#111 url(img/header-bg.png) repeat-x center top;z-index:20;">
 		<ul class="button-group even-4">
-      <li><a href="index.html" class="alert button" id="reset">Reset</a></li>
+      <li><a href="/" class="alert button" id="reset">Reset</a></li>
 			<li><button class="button" id="list" onclick="namelist();">Name List</button></li>
 			<li><button class="button" id="save" onclick="save();">Save &amp; Update</button></li>
 			<li><button class="success button" id="go" onclick="go();">GO!</button></li>
@@ -44,10 +44,19 @@ body { background:#F1C40F url(img/bg-noise-orange.png); }
 		<div class="large-12 columns">
 			<h3 style="text-align:center;margin-top:30px;" id="headline">Let's see who is The Lucky One?</h3>
 			
-			<div id="varnote"><img src="img/logo.png"><div class="copyright">&copy; Coded by <strong>Heiswayi Nrird</strong>, June 2013</div></div>
+			<div id="varnote"><img src="img/logo.png"><div class="copyright">&copy; Coded by <strong>Heiswayi Nrird</strong>, June 2013. Updated by Weiyuan Liu, Feb 2020</div></div>
 			
       <div id="popdown">
-      <div id="names" class="inbox"><textarea name="namesbox" id="namesbox"></textarea></div>
+        <div id="names" class="inbox"><textarea name="namesbox" id="namesbox"></textarea></div>
+        <div id="googlesyncer">
+          <hr/>
+          <h3 style="text-align:center;">OR sync from Google Drive</h3>
+          <p style="text-align:center;">Remember to invite <b><%= sa %></b> for write rights on your sheet</p>
+          <input type="text" id="sid" name="sid" placeholder="Google Sheets ID" />
+          <input type="text" id="sname" name="sname" placeholder="Google Individual Sheet Name" />
+          <input type="text" id="scol" name="scol" placeholder="Column to extract" />
+          <button class="button" onclick="syncGoogle()">Submit</button>
+        </div>
       </div>
       
       <div id="values"></div>
@@ -67,80 +76,7 @@ body { background:#F1C40F url(img/bg-noise-orange.png); }
   
 <script>
 var text;
-var names = new Array('Barbara McFell',
-                      'Tempo McKeteketly',
-                      'Maonga Irpaae',
-                      'Jose Tunisia',
-                      'Bob Bobson',
-                      'Harold Greenoff',
-                      'Jeff Penn',
-                      'Ewan Freedom',
-                      'Benjamin Turkin',
-                      'Robert Harper',
-                      'Sally Cladwell',
-                      'Gregory Tomson',
-                      'Benita Dano',
-                      'Tameka Chea',
-                      'Fernando Guntrum',
-                      'Cody Devita',
-                      'Margery Moloney',
-                      'Jessie Wagar',
-                      'Jessie Burkhard',
-                      'Cody Lamotte',
-                      'Tabatha Cantley',
-                      'Hugh Fullwood',
-                      'Emilia Janusz',
-                      'Erik Taketa',
-                      'Lenore Laughter',
-                      'Kathrine Palazzo',
-                      'Lonnie Garron',
-                      'Tyrone Shott',
-                      'Gay Duble',
-                      'Pearlie Newberg',
-                      'Clinton Rayl',
-                      'Louisa Strey',
-                      'Saundra Ingenito',
-                      'Fernando Jenkin',
-                      'Maricela Tonkin',
-                      'Allie Borjas',
-                      'Clinton Rickenbacker',
-                      'Cody Golay',
-                      'Jerri Tienda',
-                      'Nita Pippen',
-                      'Alejandra Bonhomme',
-                      'Nelson Eguia',
-                      'Rae Velasques',
-                      'Boyce Edeker',
-                      'Cedrick Culotti',
-                      'Elenora Nagindas',
-                      'Arletta Miran',
-                      'Alica Knudsvig',
-                      'Von Ostroot',
-                      'Tomika Nuesca',
-                      'Felton Pattinson',
-                      'Cristopher Laper',
-                      'Shonna Parrotta',
-                      'Sarina Macurdy',
-                      'Waylon Companie',
-                      'Shon Carratura',
-                      'Jae Kneser',
-                      'Janett Papiernik',
-                      'Lynwood Bellar',
-                      'Jeramy Contopoulos',
-                      'Hong Nederostek',
-                      'Gigi Mccarn',
-                      'Sid Mursko',
-                      'Bielser',
-                      'Jospeh Lustberg',
-                      'Spring Luckinbill',
-                      'Ciera Chionchio',
-                      'Marleen Litchard',
-                      'Eldridge Brynga',
-                      'Leif Dinho',
-                      'Gigi Kornblatt',
-                      'Idell Chagollan',
-                      'Michale Mcclod'
-                      );
+var names = [];
 
 function reset(){
   // re-enable go button
@@ -152,80 +88,7 @@ function reset(){
     namesbreak = namesbreak.replace(/%20/g,' ');          
     }
     else   {
-      var names = new Array('Barbara McFell',
-                      'Tempo McKeteketly',
-                      'Maonga Irpaae',
-                      'Jose Tunisia',
-                      'Bob Bobson',
-                      'Harold Greenoff',
-                      'Jeff Penn',
-                      'Ewan Freedom',
-                      'Benjamin Turkin',
-                      'Robert Harper',
-                      'Sally Cladwell',
-                      'Gregory Tomson',
-                      'Benita Dano',
-                      'Tameka Chea',
-                      'Fernando Guntrum',
-                      'Cody Devita',
-                      'Margery Moloney',
-                      'Jessie Wagar',
-                      'Jessie Burkhard',
-                      'Cody Lamotte',
-                      'Tabatha Cantley',
-                      'Hugh Fullwood',
-                      'Emilia Janusz',
-                      'Erik Taketa',
-                      'Lenore Laughter',
-                      'Kathrine Palazzo',
-                      'Lonnie Garron',
-                      'Tyrone Shott',
-                      'Gay Duble',
-                      'Pearlie Newberg',
-                      'Clinton Rayl',
-                      'Louisa Strey',
-                      'Saundra Ingenito',
-                      'Fernando Jenkin',
-                      'Maricela Tonkin',
-                      'Allie Borjas',
-                      'Clinton Rickenbacker',
-                      'Cody Golay',
-                      'Jerri Tienda',
-                      'Nita Pippen',
-                      'Alejandra Bonhomme',
-                      'Nelson Eguia',
-                      'Rae Velasques',
-                      'Boyce Edeker',
-                      'Cedrick Culotti',
-                      'Elenora Nagindas',
-                      'Arletta Miran',
-                      'Alica Knudsvig',
-                      'Von Ostroot',
-                      'Tomika Nuesca',
-                      'Felton Pattinson',
-                      'Cristopher Laper',
-                      'Shonna Parrotta',
-                      'Sarina Macurdy',
-                      'Waylon Companie',
-                      'Shon Carratura',
-                      'Jae Kneser',
-                      'Janett Papiernik',
-                      'Lynwood Bellar',
-                      'Jeramy Contopoulos',
-                      'Hong Nederostek',
-                      'Gigi Mccarn',
-                      'Sid Mursko',
-                      'Bielser',
-                      'Jospeh Lustberg',
-                      'Spring Luckinbill',
-                      'Ciera Chionchio',
-                      'Marleen Litchard',
-                      'Eldridge Brynga',
-                      'Leif Dinho',
-                      'Gigi Kornblatt',
-                      'Idell Chagollan',
-                      'Michale Mcclod'
-                      );
+    var names = [];
     for(var i in names){
       name = names[i];
       if (name == "" || typeof(name) == undefined){}else{
@@ -234,6 +97,7 @@ function reset(){
     }
   }
   $("#namesbox").val(namesbreak);
+  $('#googlesyncer').hide();
 }
 
 function gup(para)
@@ -263,16 +127,26 @@ function save(){
         $('#headline').text('The name list is saved and updated.').fadeIn();
         $("#names").show();
         $('#namesbox').attr('disabled','disabled');
+        $('#googlesyncer').hide();
 }
 
 function namelist(){
         $("#varnote").hide();
         $('#namesbox').removeAttr('disabled','disabled');
-        $('#headline').text('Configure name list');
+        $('#headline').text('Configure name list (One name per line)');
         $("#popdown").show();
         $("#values").hide();
         $("#names").show();
+        $('#googlesyncer').show();
         $('body').css({"overflow-y": "visible"});
+
+        const sid = localStorage.getItem('sid');
+        const sname = localStorage.getItem('sname');
+        const scol = localStorage.getItem('scol');
+
+        $('#sid').val(sid || '');
+        $('#sname').val(sname || '');
+        $('#scol').val(scol || '');
 }
 
 // does the actual animation
@@ -284,6 +158,7 @@ function go(){
   $('#save').attr('disabled','disabled');
   $('#headline').slideUp();
   $('#namesbox').slideDown();
+  $('#googlesyncer').hide();
 
   var count = 1;
   count = 1;
@@ -302,13 +177,8 @@ function go(){
   $("div").remove(".extra");
   $("#playback").html("");
   newtop = names.length * 200 * -1;
-  //$('#values').css({top: -300});
   $('#values').css({top: + newtop});	
   names.sort( randOrd );
-  var fruits = new Array ( "apple", "pear", "orange", "banana" );
-  //console.log(fruits);
-  //console.log(names);
-  //alert(newtop);
   for(var i in names){
     if (names[i] == "" || typeof(names[i]) == undefined){
       count = count-1;
@@ -341,6 +211,18 @@ function go(){
   //setTimeout("$('#playback').hide('slow')",11005);
 }
 
+function syncGoogle() {
+  const sid = $('#sid').val();
+  const sname = $('#sname').val();
+  const scol = $('#scol').val();
+
+  localStorage.setItem('sid', sid);
+  localStorage.setItem('sname', sname);
+  localStorage.setItem('scol', scol);
+
+  syncSheetUsers();
+}
+
 function standout(text){
 
         $('#result1').removeClass('name');
@@ -352,6 +234,7 @@ function standout(text){
         $('#save').removeAttr('disabled','disabled');
         $('#headline').text('Found the Winner!');
         $('#headline').slideDown();
+        $('#googlesyncer').hide();
 }
 
 function removevictim(){
@@ -374,6 +257,28 @@ function removevictim(){
   $("div").remove(".name");
   $("div").remove(".extra");
   $('#headline').text('OK, done! Let\'s see who is next? Just click "GO!" button for next roll.');
+}
+
+function syncSheetUsers() {
+  const sid = $('#sid').val();
+  const sname = $('#sname').val();
+  const scol = $('#scol').val();
+
+  if (sid && sname && scol) {
+    $.ajax({
+      url: '/sheets-sync',
+      method: 'POST',
+      dataType : 'json',
+      contentType: 'application/json',
+      data: JSON.stringify({ 
+        sid: sid,
+        sname: sname,
+        scol: scol,
+      })
+    }).done(function(response) {
+      $('#namesbox').val(response.join("\n"));
+    });
+  }
 }
 
 </script>
