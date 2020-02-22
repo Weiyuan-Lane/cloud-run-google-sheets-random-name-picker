@@ -1,0 +1,5 @@
+#!/bin/sh
+
+project=$1
+
+gcloud builds submit . --config "cb.yaml" --project $project

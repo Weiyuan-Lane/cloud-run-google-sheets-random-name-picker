@@ -14,6 +14,20 @@ const getClientPromise = new Promise(async function (resolve) {
   }
 });
 
-module.exports = function () {
+exports.getClientAsync = function () {
   return getClientPromise;
+}
+
+const getProjectIdPromise = new Promise(async function (resolve) {
+  try {
+    const projectId = await auth.getProjectId();
+    return resolve(projectId);
+  } catch (e) {
+    console.log(e);
+    process.exit(1);
+  }
+});
+
+exports.getProjectIdAsync = function () {
+  return getProjectIdPromise;
 }

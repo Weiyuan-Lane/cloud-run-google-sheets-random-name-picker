@@ -1,0 +1,59 @@
+#!/bin/sh
+
+project=$1
+billingId=$2
+cloudRunRegion=$3
+gaeRegion=$4
+
+if [ -z "${cloudRunRegion}" ]; then 
+    cloudRunRegion='us-central1'
+fi
+
+if [ -z "${gaeRegion}" ]; then 
+    gaeRegion='us-central'
+fi
+
+# Create Project
+gcloud projects create $project
+projectId=`gcloud projects list --format="get(projectNumber)" --limit=1 --filter="projectId=$project"`
+
+# Attach billing account
+gcloud beta billing projects link $project --billing-account=$billingId >> /dev/null 2>&1
+
+# Enable required APIs
+gcloud services enable run.googleapis.com appengine.googleapis.com cloudbuild.googleapis.com iam.googleapis.com \
+  --project $project
+
+# Attach IAM roles to Cloud Build service account
+ROLES=(appengine.appAdmin appengine.serviceAdmin run.admin serverless.serviceAgent)
+for role in "${ROLES[@]}"; do
+  gcloud projects add-iam-policy-binding $project \
+    --member=serviceAccount:"$projectId@cloudbuild.gserviceaccount.com" \
+    --role roles/$role \
+    --project=$project
+done
+
+# Attach IAM roles to Cloud Run default service account
+ROLES=(secretmanager.secretAccessor)
+for role in "${ROLES[@]}"; do
+  gcloud projects add-iam-policy-binding $project \
+    --member=serviceAccount:"$projectId-compute@developer.gserviceaccount.com" \
+    --role roles/$role \
+    --project=$project
+done
+
+# Attach IAM roles to App Engine default service account
+ROLES=(secretmanager.secretAccessor)
+for role in "${ROLES[@]}"; do
+  gcloud projects add-iam-policy-binding $project \
+    --member=serviceAccount:"$project@appspot.gserviceaccount.com" \
+    --role roles/$role \
+    --project=$project
+done
+
+# Enable AppEngine
+gcloud app create --region $gaeRegion --project $project
+
+# Set config for Cloud Run
+gcloud config set run/platform managed --project $project
+gcloud config set run/region $cloudRunRegion --project $project

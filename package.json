@@ -4,7 +4,10 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "get-secrets": "node src/init.js",
+    "init": "./init-project",
+    "deploy": "./submit-ci"
   },
   "repository": {
     "type": "git",
@@ -16,6 +19,7 @@
   },
   "homepage": "https://github.com/Weiyuan-Lane/google-sheets-api-demo#readme",
   "dependencies": {
+    "@google-cloud/secret-manager": "~1.2.1",
     "body-parser": "~1.19.0",
     "dotenv": "~8.2.0",
     "ejs": "~3.0.1",

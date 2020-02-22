@@ -6,7 +6,7 @@ const { google } = require('googleapis');
 const sheets = google.sheets('v4');
 const express = require('express');
 const path = require('path');
-const getGoogleClient = require(path.resolve('src/auth/google-client'));
+const client = require(path.resolve('src/auth/google-client'));
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 app.post('/sheets-sync', async function(req, res) {
-  const googleClient = await getGoogleClient();
+  const googleClient = await client.getClientAsync();
   const sid = req.body.sid;
   const scol = req.body.scol;
   const sname = req.body.sname;
@@ -32,10 +32,10 @@ app.post('/sheets-sync', async function(req, res) {
   });
 });
 
-app.get('', function(req, res) {
+app.get('', async function(req, res) {
   res.render('index', {
     sa: process.env.GOOGLE_SERVICE_ACCOUNT,
   })
 });
 
-app.listen(3000);
+app.listen(8080);
