@@ -13,4 +13,4 @@ steps:
     - -c
     - |
       gcloud builds submit --tag gcr.io/$PROJECT_ID/lucky-draw:2 -q
-      gcloud beta run deploy --image gcr.io/$PROJECT_ID/lucky-draw:2 -q --allow-unauthenticated --platform="managed" --region="us-central1" lucky-draw
+      gcloud beta run deploy --image gcr.io/$PROJECT_ID/lucky-draw:2 -q --platform="managed" --region="us-central1" lucky-draw
