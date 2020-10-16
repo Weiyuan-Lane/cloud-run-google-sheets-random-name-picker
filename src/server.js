@@ -7,6 +7,7 @@ const sheets = google.sheets('v4');
 const express = require('express');
 const path = require('path');
 const client = require(path.resolve('src/auth/google-client'));
+const secrets = require(path.resolve('src/config/secrets'));
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -23,7 +24,7 @@ app.post('/sheets-sync', async function(req, res) {
     auth: googleClient,
     spreadsheetId: sid,
     range: `'${sname}'!${scol}2:${scol}`,
-  }, (err, apiRes) => {
+  }, (_, apiRes) => {
     const rows = apiRes.data.values || [];
     const names = rows.map(element => {
       return element[0];
@@ -32,7 +33,17 @@ app.post('/sheets-sync', async function(req, res) {
   });
 });
 
-app.get('', async function(req, res) {
+app.get('/debug', async function(_, res) {
+  const secretOne = await secrets.getValueAsync(secrets.SECRET_KEYS.DEBUG_SECRET_ONE);
+  const secretTwo = await secrets.getValueAsync(secrets.SECRET_KEYS.DEBUG_SECRET_TWO);
+
+  res.json({
+    secretOne,
+    secretTwo,
+  });
+})
+
+app.get('', async function(_, res) {
   res.render('index', {
     sa: process.env.GOOGLE_SERVICE_ACCOUNT,
   })

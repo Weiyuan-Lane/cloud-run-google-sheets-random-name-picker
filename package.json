@@ -7,7 +7,8 @@
     "start": "node src/server.js",
     "get-secrets": "node src/init.js",
     "init": "./init-project",
-    "deploy": "./submit-ci"
+    "deploy": "./submit-ci",
+    "dev:login": "gcloud auth application-default login"
   },
   "repository": {
     "type": "git",
