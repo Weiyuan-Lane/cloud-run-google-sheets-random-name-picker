@@ -8,7 +8,7 @@ const client = new SecretManagerServiceClient();
 const SECRET_KEYS = {
   CREDENTIALS_JSON: 'secrets/credentials-json/versions/1',
   ENV_FILE: 'secrets/env-file/versions/1',
-  DEBUG_SECRET_ONE: 'secrets/debug-secret-one/versions/5',
+  DEBUG_SECRET_ONE: 'secrets/debug-secret-one/versions/7',
   DEBUG_SECRET_TWO: 'secrets/debug-secret-two/versions/latest',
 }
 exports.SECRET_KEYS = SECRET_KEYS;
