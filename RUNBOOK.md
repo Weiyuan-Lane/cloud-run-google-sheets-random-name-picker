@@ -30,5 +30,5 @@ npm run start
 ## Show debug route and then add more secrets
 
 ```
-echo "Hello Jakarta 2" | gcloud secrets versions add debug-secret-two --data-file=-
+echo "Hello DevFest Egypt" | gcloud secrets versions add debug-secret-two --data-file=-
 ```
